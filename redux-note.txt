@@ -1,0 +1,163 @@
+Redux is a predictable state container for Javascript apps. It manage the state of the
+application in a predictable way.
+
+Redux is a state container:
+Redux stores all the state of your application.
+State of the app s the state represented by all the individual components of that app. Redux will store and
+manage the application state.
+
+example of state
+state = {
+    isUserLoggedIn: true;
+    username: 'lama',
+    imageURL: 'https://example.com'
+}
+
+Redux is predictable:
+The changes to state to your application's state become predictable
+
+
+Question:
+Why we need redux despite component in React have their own state??
+
+In react app if one components needs the data from state, the data is passed from it's parent component in a
+hierarchical order, and if the last child needs the state data from base parent, the data must passed through
+intermediate child parent to the last child, which is very redundant state data for the intermediate child so
+in order to remove this redundancy we need redux.
+
+With redux, your state is contain outside the state container, the state container updates the state in a predictable
+manner and sends these value only to the components which needs these data.
+
+The similar problem can be solve using the React Context. Or also be solved by using
+React Hook useContext and useReducer.
+
+
+React-Redux
+
+React is a UI Library and Redux is state management library. They both work independently of each other, to use redux
+directly in react app is bit confusing that's why we use React-redux library. React-redux is the official Redux UI binding
+library for React. i.e React-redux performs couple of function that let React to connect with the Redux.
+
+
+Three Core Components of the Redux
+
+Cake shop scenario                          Redux Components                            Purpose
+
+Shop                                        Store                                       Holds the state of your app
+
+Intention to Buy Cake                       Action                                      Describe What happened
+
+Shopkeeper                                  Reducer                                     It ties store and action together
+
+A store hold the state of your application.
+An action that describe the changes in the state of the application
+A reducer which actually carries out the state transition depending on the
+action.
+
+
+Three Principles of Redux
+
+First Principle:
+The state of your whole application is stored in an object tree within a single store
+Manage our application state in a single object which would be managed by the Redux store.
+
+Second Principle:
+The only way to change the state is to emit an action, an object describing what happened"
+
+To update the state of the app, you need to let Redux know about that with an action.
+Redux don't allow you to directly update the state of an object.
+
+It is a simple object and contains type property.
+
+Third principle:
+To specify how the state tree is transformed by actions, you write pure reducers".
+
+pure reducer is the function that take previousState and action as a function and returns
+a newState.
+i.e.
+ function Reducer(previousState, action){
+ return newState
+ }
+
+in a Cake Shop example reducer is the Shopkeeper
+e.g.
+const reducer = (state, action) =>{
+    switch(action.type){
+    case BUY_CAKE: return{
+        numOfCakes : state.numOfCakes -1
+    }
+    }
+}
+
+
+Redux life Cycle=>
+
+ We have a redux store which maintains all the store, the Javascript App which is
+ subscribed the Javascript App request for change the state of redux store, it can't
+ directly update the state. To update the state it first needs to dispatch the action then
+ after dispatching the action the pure reducer check which action to perform, then after finding
+ the matching action it returns the updated state to the redux store, then finally redux store
+ update its state and return the updated data to Javascript application.
+
+
+Actios:
+Aciton are the only way you interact app with the store. It carry some information from the
+app to redux store. It is a plain javascript objects.
+
+It has a type property that indicates the type of action being performed.
+The type of property is typically defined as a string constants.
+
+Reducers:
+It specify how the app's state change in response to the action sent to the store.
+It is function that accepts the state and action as argument and returns the new state.
+
+(state , action ) =>{
+return newState
+}
+
+
+Redux Store:
+For a react app there will be always a single store. It has few responsibilities
+It responsibilities are:
+-It holds application states
+-Allows access to state via getState()
+-Allows state to be updated via dispatch(action)
+-Registers listeners via subscribe(listener)
+-Handles unregistering of listeners via the function returned by subscribe(listener)
+
+Redux pattern:
+Create a store, declare initialState and reducer,
+define actions and actionCreators, subscribe to the store,
+dispatch action to update the store and finally unsubscribe the changes.
+
+CombineReducer:
+Store can only store one reducer, so we have to use combineReducer function to combine multiple reducer to the single reducer
+
+Redux Middleware:
+It is the suggested way to extend Redux with custom functionality, It basically provides a third party extension point
+between dispatching an action and the moment in reaches the reducer.
+
+
+Redux-logger:
+It logs all the activity related to the redux. To use redux-logger first import and createLogger, then import applyMiddleware from the redux.
+then pass logger as the argument of applyMiddleware in second argument of store.
+
+
+Asynchronous Actions:
+Asynchronous API calls to fetch data from an end point and use that data in your application.
+
+
+Synchronous Actions:
+As soon as an action was dispatched, the state was immediately updated. In our case dispatching the BUY_CAKE automatically decrement the number of
+cakes from the store.
+
+Fetches a list of users from an API end point and stores it in the redux store.
+
+Axios:
+Axios is an react library to make an http request to the server for fetching the information.
+
+Redux-Thunk:
+It define the async action creators to the application. It is the middleware we will be applying to our store
+Thunk middleware Allows actionCreator to return a function instead of action, the function
+can perform asynchronous task, the function can dispatch regular action which will be handled by reducer.
+
